@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)5l$d9o3bf8g-juko(!d@ce&q%^-rg@wzgq3(#z0xkrhfy9-7-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://mebelstore-ae7d523d0f99.herokuapp.com/']
 
 
 # Application definition
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'mebel_shop.urls'
@@ -134,3 +135,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
+
+import django_heroku
+django_heroku.settings(locals())
+
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
