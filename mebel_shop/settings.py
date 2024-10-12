@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['https://mebelstore-ae7d523d0f99.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
