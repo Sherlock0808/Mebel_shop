@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .payment-container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        #card-element {
+            background: #f1f3f5;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #2d89ef;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2b78e4;
+        }
+        #payment-result {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .success {
+            color: #38a169;
+        }
+        .error {
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Оплата</h1>
+        <p><strong>Всего продуктов:</strong> {{ total_quantity }}</p>
+        <p><strong>Итого: </strong> ${{ total_price }}</p>
+        <form id="payment-form">
+            <div id="card-element"><!-- Stripe.js встроит поле ввода карты --></div>
+            <button id="submit">Оплатить</button>
+            <p id="payment-result"></p>
+        </form>
+    </div>
+
+    <script>
+        const stripe = Stripe("{{ stripe_public_key }}");
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Запрос client_secret с сервера
+            const response = await fetch("/create-payment-intent/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const { clientSecret } = await response.json();
+
+            const elements = stripe.elements();
+            const cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                        fontFamily: 'Arial, sans-serif',
+                    },
+                },
+            });
+            cardElement.mount('#card-element');
+
+            const form = document.getElementById('payment-form');
+            const result = document.getElementById('payment-result');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                    },
+                });
+
+                if (error) {
+                    result.textContent = `Ошибка: ${error.message}`;
+                    result.className = 'error';
+                } else {
+                    result.textContent = `Успешная оплата! ID транзакции: ${paymentIntent.id}`;
+                    result.className = 'success';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

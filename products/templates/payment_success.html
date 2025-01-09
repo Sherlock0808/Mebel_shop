@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Успешная оплата</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center text-success">Оплата успешно завершена!</h1>
+    <p class="text-center">Спасибо, {{ name }}! Мы получили ваш заказ.</p>
+    <p class="text-center"><strong>Email:</strong> {{ email }}</p>
+    <p class="text-center"><strong>Итоговая сумма:</strong> ${{ total_price }}</p>
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-primary">Вернуться на главную</a>
+    </div>
+</div>
+</body>
+</html>

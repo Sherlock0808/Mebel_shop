@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block main %}
+<main class="main">
+    <div class="registeration">
+        <div class="container">
+            <div class="registeration__content">
+
+                <form class="registeration__form active" method="post" action="{% url 'users:login' %}">
+                    {% csrf_token %}
+                    <h2 class="registeration__title products__title">Авторизация</h2>
+                    {{ form.as_p }}
+                    <button class="btn registeration__btn-login _auth" type="submit">Войти</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

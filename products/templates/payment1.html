@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .StripeElement {
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px 12px;
+            border: 1px solid #ccd0d2;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            transition: box-shadow 150ms ease;
+        }
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Ваш заказ</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.price }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right">
+        <p><strong>Общее количество:</strong> {{ total_quantity }}</p>
+        <p><strong>Общая сумма:</strong> ${{ total_price }}</p>
+    </div>
+
+    <h2>Введите данные карты</h2>
+
+    <form id="payment-form">
+        {% csrf_token %}
+        <div id="card-element" class="form-control mb-3">
+            <!-- Stripe Elements будет вставлен сюда -->
+        </div>
+        <div id="card-errors" role="alert" class="text-danger"></div>
+        <button type="submit" class="btn btn-primary btn-block mt-3">Оплатить ${{ total_price }}</button>
+    </form>
+</div>
+
+<script>
+    // Инициализация Stripe
+    const stripe = Stripe("{{ stripe_public_key }}");
+    const elements = stripe.elements();
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+
+    // Создаем элемент ввода карты
+    const cardElement = elements.create("card", {
+        style: {
+            base: {
+                fontSize: "16px",
+                color: "#32325d",
+            }
+        }
+    });
+
+    // Вставляем элемент в форму
+    cardElement.mount("#card-element");
+
+    // Обработка ошибок ввода
+    cardElement.on("change", function (event) {
+        const displayError = document.getElementById("card-errors");
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = "";
+        }
+    });
+
+    // Обработка отправки формы
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        // Создаем PaymentIntent
+        const { clientSecret } = await fetch("{% url 'products:create_payment_intent' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                 "X-CSRFToken": csrftoken,
+            }
+        }).then(response => response.json());
+
+        // Подтверждаем оплату
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement,
+            }
+        });
+
+        if (error) {
+            // Обработка ошибки
+            const displayError = document.getElementById("card-errors");
+            displayError.textContent = error.message;
+        } else {
+            // Перенаправляем на успешную оплату
+            window.location.href = "/payment-success/";
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block categories %}
+{% for k in subcategories %}
+<li>
+    <a href="{% url 'products:filter' k.id %}" class="header__list-links">
+        <span class="header__list-img">
+            <img src="{{ k.icon.url }}" alt="icons">
+        </span>{{ k.name }}
+    </a>
+</li>
+{% endfor %}
+{% endblock %}
+
+{% block slider %}
+<div class="product__slider">
+    <div class="product__slider-content">
+
+        <div class="sliderLines">
+            <div class="product__slider-item active">
+                <img src="{{ main_photo.image.url }}" alt="banner"
+                     class="product__slider-img">
+            </div>
+
+            {% for photo in photos %}
+            <div class="product__slider-item">
+                <img src="{{ photo.image.url }}" alt="banner"
+                     class="product__slider-img">
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="product__slider-panel">
+
+            <ul class="product__slider-indicators">
+                <li>
+                    <a href="#!" class="indicators__links active">
+                        <img src="{{ main_photo.image_mini.url }}" alt="products">
+                    </a>
+                </li>
+                {% for mini_img in photos %}
+                <li>
+                    <a href="#!" class="indicators__links">
+                        <img src="{{ mini_img.image_mini.url }}" alt="products">
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="product__slider-btns">
+                <button class="btn__next">
+                    <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow">
+                </button>
+                <button class="btn__prev">
+                    <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow">
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="product__slider-parameters">
+        <div class="product__raiting">
+            <div class="product__raiting-body">
+                <div class="product__raiting-active"></div>
+                <div class="product__raiting-items">
+                    <input type="radio" name="raiting" value="1" class="product__raiting-links">
+                    <input type="radio" name="raiting" value="2" class="product__raiting-links">
+                    <input type="radio" name="raiting" value="3" class="product__raiting-links">
+                    <input type="radio" name="raiting" value="4" class="product__raiting-links">
+                    <input type="radio" name="raiting" value="5" class="product__raiting-links">
+                </div>
+            </div>
+            <div class="product__raiting-value">{{ main_product.rating }}</div>
+        </div>
+        <h1 class="product__title">{{ main_product.product_name }}</h1>
+        <span class="product__categories">{{ main_product.category }}</span>
+        <div class="product__links">
+            <h2 class="product__links-price"><span>{{ main_product.price }}</span>$</h2>
+            <a href="{% url 'products:basket_add' main_product.id %}" class="product__links-buy">Купить</a>
+            <a href="{% url 'products:add_favourite' main_product.id %}" data-id="{{ main_product.id }}"
+                       class="products__item-flex">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+                                  stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+        </div>
+        <ul class="paremeters__list">
+            <li class="paremetes__list-item">
+                <h3 class="paremeters__list-title">Цвет</h3>
+                <a href="#!" class="paremeters__list-btn">
+                    <div class="paremeters__color"></div>
+                    <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow-down">
+                </a>
+                <div class="list__drop"></div>
+            </li>
+            <li class="paremetes__list-item">
+                <h3 class="paremeters__list-title">Количество</h3>
+                <a href="#!" class="paremeters__list-btn">
+                    <div class="paremeters__count"><span>1</span></div>
+                    <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow-down">
+                </a>
+                <div class="list__drop"></div>
+
+            </li>
+            <li class="paremetes__list-item">
+                <h3 class="paremeters__list-title">Размер (Д × Ш × В)</h3>
+                <a href="#!" class="paremeters__list-btn">
+                    <div class="paremeters__size">{{ main_product.length }} СМ × {{ main_product.width }} СМ × {{ main_product.height }} СМ</div>
+                    <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow-down">
+                </a>
+                <div class="list__drop"></div>
+            </li>
+        </ul>
+
+        <p class="product__descr">
+            <span class="product__descr-title">Описание</span>
+            {{ main_product.description }}
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<main class="main">
+    <div class="container">
+        <section class="products">
+            <h2 class="products__title">Хиты продаж</h2>
+            <div class="products__content">
+
+                {% for product in products %}
+                <div class="products__item ">
+                    <a href="{% url 'products:add_favourite' product.id %}" data-id="{{ product.id }}"
+                       class="products__item-flex">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+                                  stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+
+                    <a href="{% url 'products:product_info' product.id %}"> <img src="{{ product.main_foto.url }}" alt=""
+                                                   class="products__item-img"></a>
+                    <div class="products__item-text">
+                        <h3 class="products__item-title">{{ product.product_name }}</h3>
+                        <div class="products__item-desrc">{{ product.category }}</div>
+                        <div class="products__item-price">{{ product.price }} $</div>
+                    </div>
+                    <!-- /.products__item-text -->
+                    <div class="products__item-options products__options">
+                        <h4 class="products__options-title">Размеры</h4>
+                        <ul class="products__options-list options__list">
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    ШИРИНА
+                                </p>
+                                <span class="size">{{ product.width }} СМ</span>
+                            </li>
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    Длина
+                                </p>
+                                <span class="size">{{ product.length }} СМ</span>
+                            </li>
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    ВЫСОТА
+                                </p>
+                                <span class="size">{{ product.height }} СМ</span>
+                            </li>
+                        </ul>
+                        <a href="{% url 'products:basket_add' product.id %}" class="options__btn btn">Добавить в корзину</a>
+                    </div>
+                    <!-- /.products__options -->
+                </div>
+                {% endfor %}
+            </div>
+            <!-- /.products__content -->
+        </section>
+        <!-- /.products -->
+    </div>
+    <!-- /.container -->
+</main>
+{% endblock %}
+
+{% block footer_category %}
+{% for i in subcategories %}
+<ul class="footer__navigate-list">
+    <li><a href="{% url 'products:filter' i.id %}" class="footer__navigate-links">{{ i.name }}</a></li>
+</ul>
+{% endfor %}
+{% endblock %}

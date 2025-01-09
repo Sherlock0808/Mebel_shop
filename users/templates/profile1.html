@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block categories %}
+{% for k in subcategories %}
+<li>
+    <a href="{% url 'products:filter' k.id %}" class="header__list-links">
+        <span class="header__list-img">
+            <img src="{{ k.icon.url }}" alt="icons">
+        </span>{{ k.name }}
+    </a>
+</li>
+{% endfor %}
+{% endblock %}
+
+
+{% block main %}
+<main class="main">
+    <div class="profile">
+        <div class="container">
+            <div class="profile__content">
+                <form class="profile__form" method="post" action="{% url 'users:profile' %}">
+                    <h2 class="profile__title">Личные данные</h2>
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    <button class="btn profile__btn" type="submit">Изменить</button>
+                    <a class="btn profile__btn" href="{% url 'users:logout' %}">Выйти из аккаунта</a>
+
+                </form>
+                <div class="profile__orders">
+                    <h2 class="profile__title">Мои заказы</h2>
+
+                    <table class="profile__table">
+                        <tr>
+                            <td colspan="4">Товар</td>
+                            <td>Цена</td>
+                            <td>Дата</td>
+                            <td>Статус</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{% static 'assets/images/main/products/1.png' %}" alt="img">
+                                    <span>Кускен Navy
+                                                Blue</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">16990</td>
+                            <td class="profile__tabel-data">01.05.2020</td>
+                            <td class="profile__tabel-data">Ожидается</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{% static 'assets/images/main/products/2.png' %}" alt="img">
+                                    <span>Кускен Navy
+                                                Blue</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">28490</td>
+                            <td class="profile__tabel-data">01.05.2020</td>
+                            <td class="profile__tabel-data">Оплачено 50%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{% static 'assets/images/main/products/3.png' %}" alt="img">
+                                    <span>Кускен Navy
+                                                Blue</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">21990</td>
+                            <td class="profile__tabel-data">01.05.2020</td>
+                            <td class="profile__tabel-data">Доставлено</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{% static 'assets/images/main/products/4.png' %}" alt="img">
+                                    <span>Кускен Navy Blue</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">21990</td>
+                            <td class="profile__tabel-data">01.05.2020</td>
+                            <td class="profile__tabel-data">Отменен</td>
+                        </tr>
+
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                    </table>
+                    <a href="#!" class="profile__orders-link">Смотреть всё</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer_category %}
+{% for i in subcategories %}
+<ul class="footer__navigate-list">
+    <li><a href="{% url 'products:filter' i.id %}" class="footer__navigate-links">{{ i.name }}</a></li>
+</ul>
+{% endfor %}
+{% endblock %}

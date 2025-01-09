@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block categories %}
+{% for k in subcategories %}
+<li>
+    <a href="{% url 'products:filter' k.id %}" class="header__list-links">
+        <span class="header__list-img">
+            <img src="{{ k.icon.url }}" alt="icons">
+        </span>{{ k.name }}
+    </a>
+</li>
+{% endfor %}
+{% endblock %}
+
+
+{% block main %}
+<main class="main">
+    <div class="container">
+        <section class="basket">
+            <div class="basket__text">
+                <h1 class="basket__title">Ваша корзина</h1>
+                <span class="basket__count"><span>{{ total_quantity }}</span> предмета</span>
+            </div>
+            <div class="basket__items">
+                {% for product in products_box %}
+                <div class="basket__item">
+                    <a href="{% url 'products:product_info' product.id %}" class="basket__item-img">
+                        <img src="{{ product.main_foto.url }}" alt="product">
+                    </a>
+                    <div class="basket__item-content">
+                        <div class="basket__item-text">
+                            <h2 class="basket__item-title">{{ product.product_name }}</h2>
+                            <p class="basket__item-price">
+                                <span class="price"><span>{{ product.price }}</span>$</span>
+                            </p>
+                        </div>
+                        <div class="basket__options">
+                            <p class="basket__options-color">
+                                Цвет:
+                                <span class="color__name">Темно-синий</span>
+                                <span class="color__block"></span>
+                            </p>
+                            <p class="basket__options-count">
+                                Количество: <span>{{ product.quantity }}</span>
+                            </p>
+                            <p class="basket__options-size">
+                                Размер(Д×Ш×В): <span>{{ product.length  }} СМ × {{ product.width }} СМ × {{ product.height }} СМ</span>
+                            </p>
+                        </div>
+                    </div>
+                    <a href="{% url 'products:basket_remove' product.id %}" class="basket__delete">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <form class="products__form">
+                <span>Итоговая стоимость:<span class="products__form-price">{{ total_price }}$</span> </span>
+                <a class="btn products__form-btn" href="{% url 'products:payment_page' %}">Оформить заказ</a>
+            </form>
+        </section>
+        <!-- /.basket -->
+
+        <section class="products">
+            <h2 class="products__title">Хиты продаж</h2>
+            <div class="products__content">
+                {% for i in product_list %}
+                <div class="products__item">
+                    <a href="{% url 'products:add_favourite' i.id %}" data-id="{{ i.id }}"
+                       class="products__item-flex">
+                        <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+                                  stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+
+                    <a href="#"> <img src="{{ i.main_foto.url }}" alt=""
+                                                   class="products__item-img"></a>
+                    <div class="products__item-text">
+                        <h3 class="products__item-title">{{ i.product_name }}</h3>
+                        <div class="products__item-desrc">{{ i.category }}</div>
+                        <div class="products__item-price">{{ i.price }}$</div>
+                    </div>
+                    <!-- /.products__item-text -->
+                    <div class="products__item-options products__options">
+                        <h4 class="products__options-title">Размеры</h4>
+                        <ul class="products__options-list options__list">
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    ШИРИНА
+                                </p>
+                                <span class="size">{{ i.width }} СМ</span>
+                            </li>
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    ГЛУБИНА
+                                </p>
+                                <span class="size">{{ i.length }} СМ</span>
+                            </li>
+                            <li class="options__list-item">
+                                <p class="options__list-text">
+                                    ВЫСОТА
+                                </p>
+                                <span class="size">{{ i.height }} СМ</span>
+                            </li>
+                        </ul>
+                        <a href="{% url 'products:basket_add' i.id %}" class="options__btn btn">Добавить в корзину</a>
+                    </div>
+                    <!-- /.products__options -->
+                </div>
+                {% endfor %}
+            </div>
+            <!-- /.products__content -->
+
+        </section>
+        <!-- /.products -->
+
+    </div>
+    <!-- /.container -->
+</main>
+{% endblock %}
+
+{% block footer_category %}
+{% for i in subcategories %}
+<ul class="footer__navigate-list">
+    <li><a href="{% url 'products:filter' i.id %}" class="footer__navigate-links">{{ i.name }}</a></li>
+</ul>
+{% endfor %}
+{% endblock %}
