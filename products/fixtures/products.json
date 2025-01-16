@@ -1,0 +1,290 @@
+[
+  {
+    "model": "products.subcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Кухни",
+      "icon": "icons/kitchen-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Спальни",
+      "icon": "icons/bedroom-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Гостинные",
+      "icon": "icons/livingroom-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Прихожие",
+      "icon": "icons/closet-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Офисная мебель",
+      "icon": "icons/office-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 6,
+    "fields": {
+      "name": "Детская",
+      "icon": "icons/childrensroom-icon.svg"
+    }
+  },
+  {
+    "model": "products.subcategory",
+    "pk": 7,
+    "fields": {
+      "name": "Акции",
+      "icon": "icons/Vector.svg"
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 1,
+    "fields": {
+      "name": "Диваны",
+      "sub_category": [
+        1,
+        2,
+        3,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 2,
+    "fields": {
+      "name": "Шкафы",
+      "sub_category": [
+        2,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 3,
+    "fields": {
+      "name": "Кровати",
+      "sub_category": [
+        2,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 4,
+    "fields": {
+      "name": "Столы",
+      "sub_category": [
+        1,
+        2,
+        3,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 5,
+    "fields": {
+      "name": "Стулья",
+      "sub_category": [
+        1,
+        2,
+        3,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 6,
+    "fields": {
+      "name": "Комоды",
+      "sub_category": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 7,
+    "fields": {
+      "name": "Стеллажи",
+      "sub_category": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "products.categories",
+    "pk": 8,
+    "fields": {
+      "name": "Сервант",
+      "sub_category": [
+        1,
+        3,
+        5
+      ]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "product_name": "Динс Velvet Yellow",
+      "price": "700.00",
+      "quantity_in_warehouse": 5,
+      "description": "Лаконичные линии и простые формы, безупречный стиль и индивидуальность – все это диван «Динс». Сдержанный скандинавский дизайн украсит любую современную обстановку. Элегантность, комфорт и функциональность, собранные воедино – «Динс» просто создан для размеренного отдыха в кругу семьи или компании друзей!",
+      "rating": 5,
+      "length": "215",
+      "width": "90",
+      "height": "90",
+      "main_foto": "main_product_images/11.png",
+      "category": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "product_name": "Стеллаж нержавейка",
+      "price": "450.00",
+      "quantity_in_warehouse": 6,
+      "description": "<form class=\"header__search\" method=\"get\" action=\"{% url 'products:product_search' %}\">\r\n                        <i class=\"fal fa-search\"></i>\r\n                        <input type=\"text\" class=\"header__search-txt\" placeholder=\"Поиск\" name=\"q\" value=\"{{ query }}\">\r\n                    </form>",
+      "rating": 4,
+      "length": "120",
+      "width": "50",
+      "height": "270",
+      "main_foto": "main_product_images/14.png",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "image": "product_images/divan-sleepart-biksio-1.jpg",
+      "image_mini": "mini_product_images/product_images/divan-sleepart-biksio-1.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "image": "product_images/d01dc8a691f6fa75f33e6ce1610fc764_qOvJsbo.jpg",
+      "image_mini": "mini_product_images/product_images/d01dc8a691f6fa75f33e6ce1610fc764_qOvJsbo.jpg"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 2,
+      "image": "product_images/енн.webp",
+      "image_mini": "mini_product_images/product_images/енн.webp"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 2,
+      "image": "product_images/krovat-sleepart-dzhino.jpg",
+      "image_mini": "mini_product_images/product_images/krovat-sleepart-dzhino.jpg"
+    }
+  },
+  {
+    "model": "products.basket",
+    "pk": 8,
+    "fields": {
+      "user": 1,
+      "product": 1,
+      "quantity": 1,
+      "created_timestamp": "2024-12-26T14:59:36.079Z",
+      "product_name": "Динс Velvet Yellow",
+      "price": "700.00",
+      "length": "215",
+      "width": "90",
+      "height": "90",
+      "main_foto": "main_product_images/11.png",
+      "order_date": "2024-12-26"
+    }
+  },
+  {
+    "model": "products.favouriteproduct",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "product": 1,
+      "product_name": "Динс Velvet Yellow",
+      "price": "700.00",
+      "length": "215",
+      "width": "90",
+      "height": "90",
+      "main_foto": "main_product_images/11.png",
+      "category": "Шкафы"
+    }
+  },
+  {
+    "model": "products.favouriteproduct",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "product": 2,
+      "product_name": "Стеллаж нержавейка",
+      "price": "450.00",
+      "length": "120",
+      "width": "50",
+      "height": "270",
+      "main_foto": "main_product_images/14.png",
+      "category": "Стеллажи"
+    }
+  },
+  {
+    "model": "products.messages",
+    "pk": 4,
+    "fields": {
+      "name": "Sherlock Holmes",
+      "email": "petegrupiter@gmail.com",
+      "messages": "hello"
+    }
+  }
+]

@@ -1,7 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
 from .forms import MessageForm
 from .models import Product, Basket, FavouriteProduct, ProductImage, Categories, Subcategory
 
@@ -9,7 +8,7 @@ from .forms import PaymentForm
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+
 
 # Установка секретного ключа Stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
